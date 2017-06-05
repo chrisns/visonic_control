@@ -27,11 +27,11 @@ services:
       - PEER_DISCOVERY_NAME=visonic
       - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
       - DOCKER_VERNEMQ_ALLOW_MULTIPLE_SESSIONS=on
-      - USER_CODE
-      - PANEL_WEB_NAME
-      - HOST
-      - USER_ID
-      - REFRESH
+      - USER_CODE=${USER_CODE}
+      - PANEL_WEB_NAME=${PANEL_WEB_NAME}
+      - HOST=${HOST}
+      - USER_ID=${USER_ID}
+      - REFRESH=${REFRESH}
 
 networks:
   proxy:
