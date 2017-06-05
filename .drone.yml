@@ -3,6 +3,7 @@ pipeline:
   test:
     image: node:alpine
     commands:
+      - npm install
       - npm test
 
   build:
