@@ -18,5 +18,6 @@ define("USER_AGENT", "Visonic-GO/2.6.8 CFNetwork/808.1.4 Darwin/16.1.0");
 define("LOGIN_URI", "https://" . HOST . "/rest_api/3.0/login");
 define("STATUS_URI", "https://" . HOST . "/rest_api/3.0/status");
 define("ARM_URI", "https://" . HOST . "/rest_api/3.0/arm_away");
+define("HOME_URI", "https://" . HOST . "/rest_api/3.0/arm_home");
 define("DISARM_URI", "https://" . HOST . "/rest_api/3.0/disarm");
 ?>
