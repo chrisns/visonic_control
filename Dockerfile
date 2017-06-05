@@ -8,4 +8,5 @@ COPY . .
 
 CMD npm start
 
-# TODO: add healthcheck
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD wget -q localhost:3000 -O /dev/null || exit 1
