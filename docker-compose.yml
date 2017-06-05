@@ -1,0 +1,38 @@
+version: "3"
+services:
+  visonic:
+    networks:
+      - proxy
+    deploy:
+      replicas: 1
+      labels:
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.serviceDomain=visonic.p.cns.me
+        - com.df.port.1=80
+        - com.df.servicePath.1=/
+        - com.df.redirectWhenHttpProto=true
+        - com.df.xForwardedProto=true
+      restart_policy:
+        condition: any
+        delay: 5s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: pause
+        monitor: 60s
+        max_failure_ratio: 0.3
+    image: pinked/visonic_control
+    environment:
+      - PEER_DISCOVERY_NAME=visonic
+      - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
+      - DOCKER_VERNEMQ_ALLOW_MULTIPLE_SESSIONS=on
+      - USER_CODE
+      - PANEL_WEB_NAME
+      - HOST
+      - USER_ID
+      - REFRESH
+
+networks:
+  proxy:
+    external: true

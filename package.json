@@ -1,0 +1,31 @@
+{
+  "name": "visonic_control",
+  "version": "1.0.0",
+  "description": "This project consists of basic PHP scripts to arm, disarm and check status of a Visonic PowerMaster security alarm by emulating the Visonic Go app talking to the RESTful web service which is connected to a PowerLink 3 module in the alarm.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisns/visonic_control.git"
+  },
+  "author": "Chris Nesbitt-Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisns/visonic_control/issues"
+  },
+  "homepage": "https://github.com/chrisns/visonic_control#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.4.2",
+    "supertest": "^3.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+pipeline:
+
+  test:
+    image: node:alpine
+    commands:
+      - npm test
+
+  build:
+    image: docker
+    commands:
+      - docker build -t pinked/visonic_control:latest .
+      - docker login -u="chrisns" -p=${DOCKER_PASSWORD}
+      - docker push pinked/visonic_control:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  deploy:
+    image: docker
+    commands:
+      - docker deploy --compose-file docker-compose.yml visonic
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
