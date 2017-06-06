@@ -27,7 +27,6 @@ const get_status = () =>
       "Session-Token": session_token
     }
   })
-    .catch(console.error)
     .then(response => {
       response.time = new Date();
       if (response.is_connected = true) {
@@ -58,7 +57,6 @@ app.listen(3000, () =>
   })
     .then(response => session_token = response.session_token)
     .then(get_status)
-    .catch(console.error)
 )
 
 module.exports = app
