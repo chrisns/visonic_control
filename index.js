@@ -27,15 +27,36 @@ const get_status = () =>
       "Session-Token": session_token
     }
   })
+    .promise()
+    .tap(console.log)
     .then(response => {
       response.time = new Date();
       if (response.is_connected = true) {
         status = response;
       }
     })
-    .then(() => console.info(status))
-    .delay(REFRESH | 60000)
-    .finally(get_status)
+
+const loop = () =>
+  get_status()
+    .then(get_zones)
+    .delay(REFRESH ? parseInt(REFRESH) : 60000)
+    .finally(loop)
+
+const get_zones = () =>
+  rp({
+    uri: `https://${HOST}/rest_api/3.0/zones`,
+    json: true,
+    headers: {
+      Accept: "*/*",
+      "Content-Type": "application/json",
+      'User-Agent': "Visonic-GO/2.6.8 CFNetwork/808.1.4 Darwin/16.1.0",
+      "Accept-Language": "en-gb",
+      "Session-Token": session_token
+    }
+  })
+    .promise()
+    .tap(console.log)
+    .then(response => status.zones = response)
 
 app.listen(3000, () =>
   rp({
@@ -56,7 +77,7 @@ app.listen(3000, () =>
     }
   })
     .then(response => session_token = response.session_token)
-    .then(get_status)
+    .then(loop)
 )
 
 module.exports = app
