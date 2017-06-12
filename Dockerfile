@@ -8,5 +8,4 @@ COPY . .
 
 CMD npm start
 
-HEALTHCHECK --interval=1m --timeout=3s \
-  CMD wget -q localhost:3000 -O /dev/null || exit 1
+HEALTHCHECK CMD wget -q localhost:3000 -O /dev/null || exit 1
