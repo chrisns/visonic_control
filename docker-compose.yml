@@ -24,7 +24,6 @@ services:
         max_failure_ratio: 0.3
     image: pinked/visonic_control
     environment:
-      - PEER_DISCOVERY_NAME=visonic
       - USER_CODE=${USER_CODE}
       - PANEL_WEB_NAME=${PANEL_WEB_NAME}
       - HOST=${HOST}
