@@ -9,10 +9,14 @@ app.use(cors())
 const {USER_CODE, PANEL_WEB_NAME, HOST, USER_ID, REFRESH} = process.env;
 
 var status = {};
+var zones = {};
 var session_token = '';
 
-app.get('/', (req, res) =>
-  res.json(status)
+app.get('/', (req, res) => {
+    let responseobj = status
+    responseobj.zones = zones
+    return res.json(responseobj)
+  }
 )
 
 const get_status = () =>
@@ -27,8 +31,8 @@ const get_status = () =>
       "Session-Token": session_token
     }
   })
-    .promise()
-    .tap(console.log)
+  // .promise()
+  // .tap(console.info)
     .then(response => {
       response.time = new Date();
       if (response.is_connected = true) {
@@ -54,9 +58,9 @@ const get_zones = () =>
       "Session-Token": session_token
     }
   })
-    .promise()
-    .tap(console.log)
-    .then(response => status.zones = response)
+  // .promise()
+  // .tap(console.info)
+    .then(response => zones = response)
 
 app.listen(3000, () =>
   rp({
