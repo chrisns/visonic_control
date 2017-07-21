@@ -3,6 +3,7 @@ services:
   visonic:
     networks:
       - proxy
+    read_only: true
     deploy:
       replicas: 1
       labels:
