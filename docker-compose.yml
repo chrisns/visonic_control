@@ -30,6 +30,7 @@ services:
       - HOST=${HOST}
       - USER_ID=${USER_ID}
       - REFRESH=${REFRESH}
+      - SECRET=${SECRET}
 
 networks:
   proxy:
