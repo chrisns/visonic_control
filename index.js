@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(require('express-promise')())
 app.set('trust proxy', 'loopback, linklocal, uniquelocal')
 
 const {USER_CODE, PANEL_WEB_NAME, HOST, USER_ID, REFRESH, SECRET} = process.env;
