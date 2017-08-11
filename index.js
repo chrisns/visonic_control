@@ -31,9 +31,9 @@ app.post('/*', (req, res, next) => {
   }
 })
 
-app.post('/arm-home', (req, res) => change_state("arm-home", req, res))
+app.post('/arm-home', (req, res) => change_state("arm_home", req, res))
 
-app.post('/arm-away', (req, res) => change_state("arm-away", req, res))
+app.post('/arm-away', (req, res) => change_state("arm_away", req, res))
 
 app.post('/disarm', (req, res) => change_state("disarm", req, res))
 
