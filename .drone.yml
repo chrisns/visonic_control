@@ -9,6 +9,9 @@ pipeline:
   docker:
     image: plugins/docker
     repo: pinked/visonic_control
+    tags:
+      - latest
+      - ${DRONE_BUILD_NUMBER}
     secrets: [ docker_username, docker_password ]
 
   deploy:
