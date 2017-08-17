@@ -143,10 +143,10 @@ if (MQTT_HOST) {
       client.publish(`${TOPIC_PREFIX}/status`, status.partitions[0].ready_status.toString(), {retain: true})
     }
 
-    if (previous_time !== status.partitions[0].time) {
-      client.publish(`${TOPIC_PREFIX}/state`, status.partitions[0].time, {retain: true})
+    if (previous_time !== status.time) {
+      client.publish(`${TOPIC_PREFIX}/state`, status.time, {retain: true})
     }
-    previous_time = status.partitions[0].time
+    previous_time = status.time
     previous_state = status.partitions[0].state
     previous_ready_status = status.partitions[0].ready_status
   }
