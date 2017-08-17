@@ -31,6 +31,10 @@ services:
       - USER_ID=${USER_ID}
       - REFRESH=${REFRESH}
       - SECRET=${SECRET}
+      - MQTT_HOST=${MQTT_HOST}
+      - MQTT_USER=${MQTT_USER}
+      - MQTT_PASS=${MQTT_PASS}
+      - TOPIC_PREFIX=${TOPIC_PREFIX}
 
 networks:
   proxy:
