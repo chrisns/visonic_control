@@ -130,6 +130,9 @@ let notify_mqtt_status = () => arguments
 let notify_mqtt_zones = () => arguments
 
 if (MQTT_HOST) {
+
+  // @TODO: manage state with MQTT queries rather than in local memory
+
   let previous_state
   let previous_ready_status
   let previous_time
@@ -144,7 +147,7 @@ if (MQTT_HOST) {
     }
 
     if (previous_time !== status.time) {
-      client.publish(`${TOPIC_PREFIX}/state`, status.time, {retain: true})
+      client.publish(`${TOPIC_PREFIX}/time`, status.time, {retain: true})
     }
     previous_time = status.time
     previous_state = status.partitions[0].state
