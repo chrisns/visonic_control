@@ -23,7 +23,7 @@ services:
         failure_action: pause
         monitor: 60s
         max_failure_ratio: 0.3
-    image: pinked/visonic_control
+    image: pinked/visonic_control:${DRONE_BUILD_NUMBER}
     environment:
       - USER_CODE=${USER_CODE}
       - PANEL_WEB_NAME=${PANEL_WEB_NAME}
