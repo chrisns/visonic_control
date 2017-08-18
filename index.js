@@ -31,12 +31,13 @@ app.post('/*', (req, res, next) => {
     res.sendStatus(403)
   }
 })
+if (SECRET) {
+  app.post('/arm-home', (req, res) => change_state("arm_home", req, res))
 
-app.post('/arm-home', (req, res) => change_state("arm_home", req, res))
+  app.post('/arm-away', (req, res) => change_state("arm_away", req, res))
 
-app.post('/arm-away', (req, res) => change_state("arm_away", req, res))
-
-app.post('/disarm', (req, res) => change_state("disarm", req, res))
+  app.post('/disarm', (req, res) => change_state("disarm", req, res))
+}
 
 const change_state = (state, req, res) =>
   rp({
