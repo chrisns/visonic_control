@@ -136,31 +136,46 @@ if (MQTT_HOST) {
   let previous_state
   let previous_ready_status
   let previous_time
+  let previous_connected
   let previous_zones = []
   notify_mqtt_status = status => {
-    if (previous_state !== status.partitions[0].state) {
-      client.publish(`${TOPIC_PREFIX}/state`, status.partitions[0].state, {retain: true})
-    }
+    try {
+      if (previous_state !== status.partitions[0].state.toString()) {
+        client.publish(`${TOPIC_PREFIX}/state`, status.partitions[0].state, {retain: true})
+      }
 
-    if (previous_ready_status !== status.partitions[0].ready_status) {
-      client.publish(`${TOPIC_PREFIX}/status`, status.partitions[0].ready_status.toString(), {retain: true})
-    }
+      if (previous_ready_status !== status.partitions[0].ready_status.toString()) {
+        client.publish(`${TOPIC_PREFIX}/status`, status.partitions[0].ready_status.toString(), {retain: true})
+      }
 
-    if (previous_time !== status.time) {
-      client.publish(`${TOPIC_PREFIX}/time`, status.time, {retain: true})
+      if (previous_time !== status.time.toString()) {
+        client.publish(`${TOPIC_PREFIX}/time`, status.time.toString(), {retain: true})
+      }
+
+      if (previous_connected !== status.is_connected.toString()) {
+        client.publish(`${TOPIC_PREFIX}/connected`, status.is_connected.toString(), {retain: true})
+      }
+
+      previous_time = status.time.toString()
+      previous_connected = status.is_connected.toString()
+      previous_state = status.partitions[0].state.toString()
+      previous_ready_status = status.partitions[0].ready_status.toString()
+    } catch (e) {
+      console.error(e, status)
     }
-    previous_time = status.time
-    previous_state = status.partitions[0].state
-    previous_ready_status = status.partitions[0].ready_status
   }
 
   notify_mqtt_zones = zones => {
-    zones.forEach((val, i) => {
-      if (JSON.stringify(val) !== JSON.stringify(previous_zones[i])) {
-        client.publish(`${TOPIC_PREFIX}/zones/${val.zone}`, JSON.stringify(val), {retain: true})
-      }
-    })
-    previous_zones = zones
+    try {
+      zones.forEach((val, i) => {
+        if (JSON.stringify(val) !== JSON.stringify(previous_zones[i])) {
+          client.publish(`${TOPIC_PREFIX}/zones/${val.zone}`, JSON.stringify(val), {retain: true})
+        }
+      })
+      previous_zones = zones
+    } catch (e) {
+      console.error(e, zones)
+    }
   }
 
   const client = mqtt.connect(MQTT_HOST, {

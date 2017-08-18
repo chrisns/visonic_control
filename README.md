@@ -1,10 +1,33 @@
 # visonic_control
 
-Super crude way to just get the status of your powermaster alarm via the powermanage service
+Super crude way to get & set the status of your powermaster alarm via the powermanage service.
+
+Setting is done either via a shared secret or via MQTT - where you're expected to protect write access to the topic yourself.
 
 ```
-docker run --rm -ti -p 8099:80 -e USER_CODE=XXXX -e PANEL_WEB_NAME=XXXXX -e HOST=XXXXX -e USER_ID=`uuidgen pinked/visonic
+docker run --rm -ti -p 8099:80 \
+  -e USER_CODE=XXXX \
+  -e PANEL_WEB_NAME=XXXXX \
+  -e HOST=XXXXX \
+  -e USER_ID=$(uuidgen) \
+  -e SECRET=XXXXX \
+  -e REFRESH=10000 \
+  pinked/visonic
 ```
+
+```
+docker run --rm -ti -p 8099:80 \
+  -e USER_CODE=XXXX \
+  -e PANEL_WEB_NAME=XXXXX \
+  -e HOST=XXXXX \
+  -e USER_ID=$(uuidgen) \
+  -e MQTT_HOST=mqtts://XXX \
+  -e TOPIC_PREFIX='alarm' \
+  -e MQTT_USER=XXX \
+  -e MQTT_PASS=XXXX \
+  pinked/visonic
+```
+
 
 Big thanks to @barcar for their hard work on https://github.com/barcar/visonic_control in reverse engineering the interface
 
