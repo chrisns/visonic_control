@@ -143,6 +143,7 @@ if (MQTT_HOST) {
     try {
       if (previous_state !== status.partitions[0].state.toString()) {
         client.publish(`${TOPIC_PREFIX}/state`, status.partitions[0].state, {retain: true})
+        client.publish(`${TOPIC_PREFIX}/new-state`, status.partitions[0].state)
       }
 
       if (previous_ready_status !== status.partitions[0].ready_status.toString()) {
