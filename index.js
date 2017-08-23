@@ -5,6 +5,7 @@ const Promise = require("bluebird")
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const mqtt = require('mqtt')
+const _ = require('lodash')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -158,10 +159,10 @@ if (MQTT_HOST) {
         client.publish(`${TOPIC_PREFIX}/connected`, status.is_connected.toString(), {retain: true})
       }
 
-      previous_time = status.time.toString()
-      previous_connected = status.is_connected.toString()
-      previous_state = status.partitions[0].state.toString()
-      previous_ready_status = status.partitions[0].ready_status.toString()
+      // previous_time = status.time.toString()
+      // previous_connected = status.is_connected.toString()
+      // previous_state = status.partitions[0].state.toString()
+      // previous_ready_status = status.partitions[0].ready_status.toString()
     } catch (e) {
       console.error(e, status)
     }
@@ -173,11 +174,12 @@ if (MQTT_HOST) {
         if (previous_ready_status === "true") {
           val.troubles = null
         }
-        if (JSON.stringify(val) !== JSON.stringify(previous_zones[i])) {
+        if (JSON.stringify(val) !== previous_zones[val.zone]) {
+          // if (JSON.stringify(val) !== JSON.stringify(previous_zones[i])) {
           client.publish(`${TOPIC_PREFIX}/zones/${val.zone}`, JSON.stringify(val), {retain: true})
         }
       })
-      previous_zones = zones
+      // previous_zones = zones
     } catch (e) {
       console.error(e, zones)
     }
@@ -189,6 +191,14 @@ if (MQTT_HOST) {
   })
 
   client.on('connect', () => client.subscribe(`$share/alarm/${TOPIC_PREFIX}/set-state`))
+
+  client.on('connect', () => client.subscribe([
+    `${TOPIC_PREFIX}/state`,
+    `${TOPIC_PREFIX}/status`,
+    `${TOPIC_PREFIX}/time`,
+    `${TOPIC_PREFIX}/connected`,
+    `${TOPIC_PREFIX}/zones/+`
+  ]))
 
   client.on('connect', () => console.log("mqtt - connected"))
 
@@ -218,6 +228,22 @@ if (MQTT_HOST) {
       })
         .promise()
         .tap(response => console.log(new Date(), "mqtt", state, response))
+    }
+    if (topic === `${TOPIC_PREFIX}/state`) {
+      previous_state = message.toString()
+    }
+    if (topic === `${TOPIC_PREFIX}/status`) {
+      previous_ready_status = message.toString()
+    }
+    if (topic === `${TOPIC_PREFIX}/time`) {
+      previous_time = message.toString()
+    }
+    if (topic === `${TOPIC_PREFIX}/connected`) {
+      previous_connected = message.toString()
+    }
+    if (_.startsWith(topic, `${TOPIC_PREFIX}/zones/`)) {
+      let zone = JSON.parse(message.toString())
+      previous_zones[zone.zone] = message.toString()
     }
   })
 

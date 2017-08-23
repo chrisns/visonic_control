@@ -5,7 +5,7 @@ services:
       - proxy
     read_only: true
     deploy:
-      replicas: 1
+      replicas: 2
       labels:
         - com.df.notify=true
         - com.df.distribute=true
@@ -20,7 +20,7 @@ services:
       update_config:
         parallelism: 1
         delay: 10s
-        failure_action: pause
+        failure_action: rollback
         monitor: 60s
         max_failure_ratio: 0.3
     image: pinked/visonic_control:${DRONE_BUILD_NUMBER}
@@ -29,7 +29,7 @@ services:
       - PANEL_WEB_NAME=${PANEL_WEB_NAME}
       - HOST=${HOST}
       - USER_ID=${USER_ID}
-      - REFRESH=${REFRESH}
+      - REFRESH=20000
       - SECRET=${SECRET}
       - MQTT_HOST=${MQTT_HOST}
       - MQTT_USER=${MQTT_USER}
