@@ -170,6 +170,9 @@ if (MQTT_HOST) {
   notify_mqtt_zones = zones => {
     try {
       zones.forEach((val, i) => {
+        if (previous_ready_status === "true") {
+          val.troubles = null
+        }
         if (JSON.stringify(val) !== JSON.stringify(previous_zones[i])) {
           client.publish(`${TOPIC_PREFIX}/zones/${val.zone}`, JSON.stringify(val), {retain: true})
         }
