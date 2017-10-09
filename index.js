@@ -59,6 +59,7 @@ const change_state = (state, req, res) =>
     .promise()
     .tap(response => console.log(new Date(), req.ip, state, response))
     .then(response => res.json(response))
+    .tap(() => get_status())
     .catch(response =>
       res.sendStatus(response.statusCode).end(response.message)
     )
