@@ -191,7 +191,7 @@ if (MQTT_HOST) {
     password: MQTT_PASS
   })
 
-  client.on('connect', () => client.subscribe(`$share/alarm/${TOPIC_PREFIX}/set-state`))
+  client.on('connect', () => client.subscribe(`$share/alarm/${TOPIC_PREFIX}/set-state`), {qos: 2})
 
   client.on('connect', () => client.subscribe([
     `${TOPIC_PREFIX}/state`,
@@ -199,7 +199,7 @@ if (MQTT_HOST) {
     `${TOPIC_PREFIX}/time`,
     `${TOPIC_PREFIX}/connected`,
     `${TOPIC_PREFIX}/zones/+`
-  ]))
+  ]), {qos: 2})
 
   client.on('connect', () => console.log("mqtt - connected"))
 
