@@ -188,10 +188,12 @@ if (MQTT_HOST) {
 
   const client = mqtt.connect(MQTT_HOST, {
     username: MQTT_USER,
-    password: MQTT_PASS
+    password: MQTT_PASS,
+    clean: false,
+    clientId: 'visonic'
   })
 
-  client.on('connect', () => client.subscribe(`$share/alarm/${TOPIC_PREFIX}/set-state`), {qos: 2})
+  client.on('connect', () => client.subscribe(`${TOPIC_PREFIX}/set-state`), {qos: 2})
 
   client.on('connect', () => client.subscribe([
     `${TOPIC_PREFIX}/state`,
